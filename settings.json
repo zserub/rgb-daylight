@@ -1,0 +1,66 @@
+{
+    "colors": {
+        "dawn": [
+            0.1,
+            0.1,
+            0.3
+        ],
+        "dusk": [
+            0.3,
+            0.1,
+            0.4
+        ],
+        "night-end": [
+            0,
+            0,
+            0.05
+        ],
+        "night-start": [
+            0,
+            0,
+            0.05
+        ],
+        "noon": [
+            1,
+            1,
+            1
+        ],
+        "sunrise": [
+            0.4,
+            0.4,
+            0.4
+        ],
+        "sunset": [
+            0.5,
+            0.25,
+            0.1
+        ],
+        "midnight": [
+            0,
+            0,
+            0.05
+        ],
+        "new-day": [
+            0,
+            0,
+            0.05
+        ]
+    },
+    "intensity": 1,
+    "led_pins": {
+        "b": 17,
+        "g": 27,
+        "r": 22
+    },
+    "position": {
+        "latitude": -25,
+        "longitude": -20,
+        "timezone": "Europe/Budapest"
+    },
+    "timezone_offset": 0,
+    "white_balance": [
+        1,
+        1,
+        1
+    ]
+}
