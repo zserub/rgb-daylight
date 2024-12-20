@@ -20,7 +20,7 @@ lights = RGB(config)
 day = Daylight(config,lights)
 
 # Test option setup
-delay = 3600
+delay = 10
 if args.test:
     day.test=True
     delay = 0.05
