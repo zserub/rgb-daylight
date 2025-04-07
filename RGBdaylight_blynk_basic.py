@@ -91,7 +91,6 @@ def v3_write_handler(value):
         automode = 0
         print("Manual mode activated") 
         lights.color=[r, g, b, 1]
-           
 
 # Time window
 @blynk.on("V4")
@@ -102,8 +101,8 @@ def v4_time_handler(value):
     print('Start Time: {}, Stop Time: {}'.format(start_time, stop_time))
     
 def lightalarm(start_time, stop_time, current_time):
-    start_values=[0.01, 0.005, 0]
-    end_values=[1, 0.5, 0.5]
+    start_values=[0.005, 0, 0]
+    end_values=[1, 0.5, 0.35]
     act_values=[0,0,0]
     total_duration=stop_time-start_time
     elapsed_duration = current_time - start_time
@@ -127,6 +126,8 @@ while True:
         # Alarm
         if automode == 1 and current_time >= start_time and current_time <= stop_time:
             lightalarm(start_time, stop_time, current_time)
+        elif automode == 1 and current_time > stop_time:
+            lights.color=[0, 0, 0, 1]
     
         # Daylight sim
         if automode == 2:
