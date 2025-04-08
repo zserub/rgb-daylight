@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta #timezone
-#from zoneinfo import ZoneInfo  # Built-in in Python 3.9+
+from datetime import datetime, timedelta  # timezone
+# from zoneinfo import ZoneInfo  # Built-in in Python 3.9+
 from astral import Observer
 from astral.sun import sun  # Correct import from astral.sun
 from astral import LocationInfo
@@ -40,9 +40,16 @@ class Daylight(object):
     def update(self, current_time):
         # print(datetime.now())
         print(f'Current time: {current_time}')
-        s = sun(self.observer, datetime.today())
-        
+        # s = sun(self.observer, datetime.today())
+        s = dict.fromkeys(self.time_of_day, 0)
+
         # Manually adjust night-start and night-end
+        s["dawn"] = datetime.now().replace(hour=5, minute=5, second=0)
+        s["dusk"] = datetime.now().replace(hour=20, minute=0, second=0)
+        s["sunrise"] = datetime.now().replace(hour=6, minute=0, second=0)
+        s["noon"] = datetime.now().replace(hour=12, minute=0, second=0)
+        s["sunset"] = datetime.now().replace(hour=19, minute=0, second=0)
+
         # Night starts just after dusk
         s['night-start'] = s['dusk'] + timedelta(minutes=60)
         # Night ends just before dawn
@@ -56,7 +63,6 @@ class Daylight(object):
         # print(f"DEBUG:Start time: {start_sec}, End time: {end_sec}")
         self.lights.color = self.transition(
             start_sec, end_sec, current_time, self.colors[start_time], self.colors[end_time])
-
 
     def transition(self, start_time, stop_time, current_time, start_values, end_values):
         total_duration = stop_time-start_time
@@ -91,7 +97,7 @@ class Daylight(object):
         start_time = ToD_seconds[below]
         end_time = ToD_seconds[above]
         return start_time, end_time, below, above
-        
+
     def time_to_seconds(self, time):
         """Convert time to total seconds in a 24-hour format"""
         return time.hour * 3600 + time.minute * 60 + time.second
@@ -118,5 +124,6 @@ class Daylight(object):
     @position.setter
     def position(self, value):
         self._position = value
-        city = LocationInfo("", "", value["timezone"], value["latitude"], value["longitude"])
+        city = LocationInfo(
+            "", "", value["timezone"], value["latitude"], value["longitude"])
         self.observer = city.observer
