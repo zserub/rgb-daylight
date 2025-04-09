@@ -56,8 +56,6 @@ def get_current_time():
     return current_time.tm_hour * 3600 + current_time.tm_min * 60 + current_time.tm_sec
 
 # Red LED control through V0 virtual pin
-
-
 @blynk.on("V0")
 def v0_write_handler(value):
     global r
@@ -67,8 +65,6 @@ def v0_write_handler(value):
         # print(f'Red value changed to {r}')
 
 # Blue LED control through V1 virtual pin
-
-
 @blynk.on("V1")
 def v1_write_handler(value):
     global b
@@ -78,8 +74,6 @@ def v1_write_handler(value):
         # print(f'Blue value changed to {b}')
 
 # Green LED control through V2 virtual pin
-
-
 @blynk.on("V2")
 def v2_write_handler(value):
     global g
@@ -89,25 +83,25 @@ def v2_write_handler(value):
         # print(f'Green value changed to {g}')
 
 # Manual/Auto mode
-
-
 @blynk.on("V3")
 def v3_write_handler(value):
     global automode
     if int(value[0]) == 1:  # Alarm mode
         automode = 1
         print("Alarm mode activated")
+        
     elif int(value[0]) == 2:  # Auto mode
         automode = 2
         print("Auto mode activated")
+        current_time = get_current_time()
+        day.update(current_time)
+        
     else:  # Manual mode
         automode = 0
         print("Manual mode activated")
         lights.color = [r, g, b, 1]
 
 # Time window
-
-
 @blynk.on("V4")
 def v4_time_handler(value):
     global start_time, stop_time
@@ -130,15 +124,14 @@ def lightalarm(start_time, stop_time, current_time):
     lights.color = act_values
 
 # function to sync the data from virtual pins
-
-
 @blynk.on("connected")
 def blynk_connected():
     print("Raspberry Pi Connected to Blynk")
 
+
 def modeHandler():
     global prev_time, delay, automode, start_time, stop_time
-    
+
     current_time = get_current_time()
 
     if current_time % delay == 0 and prev_time != current_time:
@@ -153,6 +146,7 @@ def modeHandler():
         if automode == 2:
             day.update(current_time)
 
+
 def connect_to_blynk():
     # This will run the Blynk connection in a try-except block
     while True:
@@ -165,10 +159,10 @@ def connect_to_blynk():
         except Exception as e:
             print(f"Blynk runtime error: {e}")
             break  # Break out of the inner loop to attempt reconnection
-        
+
     print("Attempting to reconnect in 60 seconds...")
     time.sleep(60)  # Wait 60 seconds before reconnecting
 
+
 if __name__ == "__main__":
     connect_to_blynk()
-

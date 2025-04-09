@@ -44,7 +44,7 @@ class Daylight(object):
         s = dict.fromkeys(self.time_of_day, 0)
 
         # Manually adjust night-start and night-end
-        s["dawn"] = datetime.now().replace(hour=5, minute=5, second=0)
+        s["dawn"] = datetime.now().replace(hour=6, minute=5, second=0)
         s["dusk"] = datetime.now().replace(hour=20, minute=0, second=0)
         s["sunrise"] = datetime.now().replace(hour=6, minute=0, second=0)
         s["noon"] = datetime.now().replace(hour=12, minute=0, second=0)
